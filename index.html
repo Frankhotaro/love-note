@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="lo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ຈົດໝາຍເຖິງແມວສົ້ມ</title>
+<meta name="description" content="ມີຈົດໝາຍນ້ອຍໆ ສົ່ງມາເຖິງແມວສົ້ມ — ແຕະເພື່ອເປີດອ່ານ">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://frankhotaro.github.io/love-note/">
+<meta property="og:image" content="https://frankhotaro.github.io/love-note/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="ຈົດໝາຍເຖິງແມວສົ້ມ">
+<meta property="og:description" content="ມີຈົດໝາຍນ້ອຍໆ ສົ່ງມາເຖິງແມວສົ້ມ — ແຕະເພື່ອເປີດອ່ານ">
+<meta name="theme-color" content="#640000">
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Noto+Sans+Lao+Looped:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --w: min(86vw, 420px);
+    --h: calc(var(--w) * .74);        /* lower half of the sheet / closed card height */
+    --flap: calc(var(--h) * .86);     /* upper half, folds down over the lower half   */
+    --r: 22px;
+    --fs: max(17px, calc(var(--w) * .05));
+
+    /* colours sampled from the reference card */
+    --ink: #a5122b;
+    --ink-soft: #c9405a;
+    --paper: #fdfaf5;
+    --bg: #640000;
+    --bg-lift: #740606;
+    --bg-low: #560000;
+    --cream: #fdf3e8;
+
+    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='p' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.09 .11' numOctaves='4' stitchTiles='stitch' seed='8'/%3E%3CfeDiffuseLighting lighting-color='%23ffffff' surfaceScale='.9' diffuseConstant='1.12'%3E%3CfeDistantLight azimuth='135' elevation='66'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  }
+  @supports (height: 1svh) {
+    :root { --w: min(86vw, 420px, 56svh); }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow-x: hidden;
+    background: radial-gradient(120% 75% at 50% 42%, var(--bg-lift) 0%, var(--bg) 58%, var(--bg-low) 100%) fixed var(--bg);
+    color: var(--ink);
+    font-family: "Caveat", "Noto Sans Lao Looped", "Phetsarath OT", sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ---------- dreamy sky ---------- */
+  .sky { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .cloud {
+    position: absolute;
+    width: 62vmax; height: 30vmax;
+    background:
+      radial-gradient(closest-side at 50% 58%, #a81c2c33 0 35%, #a81c2c00 100%) 34% 58% / 56% 86% no-repeat,
+      radial-gradient(closest-side at 50% 50%, #a81c2c2e 0 30%, #a81c2c00 100%) 62% 34% / 52% 92% no-repeat,
+      radial-gradient(closest-side at 50% 50%, #a81c2c24 0 25%, #a81c2c00 100%) 12% 72% / 40% 60% no-repeat,
+      radial-gradient(closest-side at 50% 50%, #a81c2c24 0 25%, #a81c2c00 100%) 88% 70% / 42% 62% no-repeat;
+    animation: drift 46s ease-in-out infinite alternate;
+  }
+  .cloud.a { left: -22vmax; top: -9vmax; }
+  .cloud.b { right: -26vmax; top: 22vh; opacity: .75; animation-duration: 62s; animation-direction: alternate-reverse; }
+  .cloud.c { left: -18vmax; bottom: -13vmax; opacity: .95; animation-duration: 54s; }
+  .cloud.d { right: -20vmax; bottom: -15vmax; animation-duration: 70s; animation-direction: alternate-reverse; }
+  @keyframes drift { from { transform: translate3d(-3vmax, 0, 0); } to { transform: translate3d(5vmax, 1.4vmax, 0); } }
+
+  .spark { position: absolute; width: 16px; height: 16px; fill: var(--cream); animation: twinkle 3.6s ease-in-out infinite; }
+  @keyframes twinkle { 0%, 100% { opacity: .15; transform: scale(.55) rotate(0); } 50% { opacity: 1; transform: scale(1) rotate(25deg); } }
+
+  .float-heart { position: fixed; bottom: -48px; pointer-events: none; z-index: 0; animation: rise linear forwards; }
+  @keyframes rise {
+    0%   { transform: translate3d(0, 0, 0) rotate(-8deg); opacity: 0; }
+    12%  { opacity: var(--o, .75); }
+    50%  { transform: translate3d(var(--sway, 24px), -55vh, 0) rotate(9deg); }
+    88%  { opacity: var(--o, .75); }
+    100% { transform: translate3d(calc(var(--sway, 24px) * -.4), -112vh, 0) rotate(-6deg); opacity: 0; }
+  }
+  .pop-heart { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 6; animation: pop var(--t, .9s) cubic-bezier(.16, .8, .3, 1) forwards; }
+  @keyframes pop {
+    from { transform: translate3d(var(--x0), var(--y0), 0) scale(.3); opacity: 1; }
+    70%  { opacity: 1; }
+    to   { transform: translate3d(var(--x1), var(--y1), 0) scale(1) rotate(var(--rot)); opacity: 0; }
+  }
+
+  /* ---------- stage ---------- */
+  .stage {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 40px 16px 92px;
+    overflow-x: clip;
+  }
+
+  .note {
+    position: relative;
+    width: var(--w);
+    perspective: 1500px;
+    transform: translateY(calc(var(--flap) / -2 + 22px));
+    transition: transform 1s cubic-bezier(.45, .05, .2, 1);
+  }
+  .note.is-open { transform: none; }
+
+  .paper-surface {
+    background-color: var(--paper);
+    background-image: var(--texture);
+    background-size: 360px 360px;
+    background-blend-mode: multiply;
+  }
+
+  /* the two loose sheets behind, as on a stack of cards */
+  .under {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    top: var(--flap);
+    border-radius: var(--r);
+    box-shadow: 0 10px 26px #1f000059;
+    transition: top .95s cubic-bezier(.45, .05, .2, 1), transform .95s cubic-bezier(.45, .05, .2, 1);
+  }
+  .under.one { transform: rotate(-4deg) translateX(-5px); }
+  .under.two { transform: rotate(5deg) translate(6px, 4px); }
+  .is-open .under { top: 0; }
+  /* --tilt shrinks the angle on tall sheets so the corners stay close */
+  .is-open .under.one { transform: rotate(calc(-3deg * var(--tilt, 1))) translate(-9px, 4px); }
+  .is-open .under.two { transform: rotate(calc(3.4deg * var(--tilt, 1))) translate(9px, 8px); }
+
+  .paper {
+    position: relative; z-index: 1;
+    height: calc(var(--flap) + var(--h));
+    transform-style: preserve-3d;
+    transition: height .8s cubic-bezier(.3, .7, .2, 1);
+  }
+
+  .base {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    top: var(--flap);
+    border-radius: 0 0 var(--r) var(--r);
+    box-shadow: 0 14px 30px #1f000038, 0 2px 6px #1f000024;
+  }
+  .base::before {   /* soft crease shading */
+    content: ""; position: absolute; inset: 0 0 auto; height: 34px;
+    background: linear-gradient(#7a10241c, #7a102400);
+    pointer-events: none;
+  }
+
+  .flap {
+    position: absolute; left: 0; right: 0; top: 0;
+    height: var(--flap);
+    transform-origin: 50% 100%;
+    transform-style: preserve-3d;
+    transform: translateZ(1px) rotateX(-179.6deg);
+    transition: transform 1.25s cubic-bezier(.5, .04, .18, 1);
+  }
+  .is-open .flap { transform: translateZ(0) rotateX(0deg); }
+
+  .face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .face.inner {
+    border-radius: var(--r) var(--r) 0 0;
+    box-shadow: 0 -6px 22px #1f000033;
+  }
+  .face.inner::after {   /* matching crease on the top half */
+    content: ""; position: absolute; inset: auto 0 0; height: 34px;
+    background: linear-gradient(#7a102400, #7a102414);
+  }
+  .face.outer {
+    transform: rotateX(180deg);
+    border-radius: 0 0 var(--r) var(--r);
+    box-shadow: 0 5px 12px #7a102426;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    text-align: center;
+    padding-bottom: 26px;
+  }
+  .face.outer .to {
+    font-size: calc(var(--fs) * 1.7);
+    font-weight: 500;
+    line-height: 1.75;
+    color: var(--ink);
+    transform: rotate(-2deg);
+  }
+  .face.outer .squiggle { width: 42%; height: 12px; margin-top: -6px; fill: none; stroke: var(--ink-soft); stroke-width: 2; stroke-linecap: round; }
+  .corner-doodle { position: absolute; fill: none; stroke: var(--ink-soft); stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; opacity: .75; }
+  .corner-doodle.tl { width: 26px; left: 22px; top: 20px; transform: rotate(-14deg); }
+  .corner-doodle.tr { width: 18px; right: 26px; top: 34px; transform: rotate(16deg); }
+
+  /* ---------- seal / open button ---------- */
+  .seal {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    top: var(--flap);
+    margin: 0; padding: 0; border: 0;
+    background: none;
+    border-radius: 0 0 var(--r) var(--r);
+    cursor: pointer;
+    transform: translateZ(3px);
+    color: inherit;
+    font: inherit;
+  }
+  .seal:focus { outline: none; }
+  .seal:focus-visible .sticker { filter: drop-shadow(0 0 0 #fff) drop-shadow(0 0 7px #a5122bcc); }
+  .sticker {
+    position: absolute; left: 50%; top: 86%;
+    width: 86px; height: 86px;
+    margin: -43px 0 0 -43px;
+    filter: drop-shadow(0 5px 7px #7a102459);
+    animation: beat 2.2s ease-in-out infinite;
+    transition: transform .45s cubic-bezier(.3, 1.5, .6, 1), opacity .35s;
+  }
+  .seal:hover .sticker { animation-duration: 1.1s; }
+  @keyframes beat {
+    0%, 55%, 100% { transform: scale(1); }
+    12% { transform: scale(1.1); }
+    24% { transform: scale(1); }
+    36% { transform: scale(1.07); }
+  }
+  .is-open .sticker { animation: none; transform: scale(1.5) rotate(14deg); opacity: 0; }
+  .is-open .seal { pointer-events: none; visibility: hidden; transition: visibility 0s .4s; }
+
+  .hint {
+    position: absolute; left: 0; right: 0;
+    top: calc(100% + 26px);
+    margin: 0;
+    text-align: center;
+    font-size: var(--fs);
+    font-weight: 500;
+    line-height: 1.9;
+    color: var(--cream);
+    animation: bob 2.2s ease-in-out infinite;
+    transition: opacity .25s;
+  }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  .is-open .hint { opacity: 0; animation: none; }
+
+  /* ---------- the message ---------- */
+  .message {
+    position: absolute; left: 0; right: 0; top: 0;
+    min-height: calc(var(--flap) + var(--h));
+    display: flex; flex-direction: column;
+    padding: calc(var(--w) * .11) calc(var(--w) * .085) calc(var(--w) * .1);
+    transform: translateZ(2px);
+    visibility: hidden;
+    font-size: var(--fs);
+    line-height: 1.95;
+    outline: none;
+    cursor: default;
+  }
+  .message.is-shown { visibility: visible; }
+  .message p { margin: 0; }
+  .greeting { font-size: 1.24em; font-weight: 500; line-height: 1.8; transform: rotate(-1deg); transform-origin: left center; }
+  .body {
+    margin-top: 1em !important;
+    font-weight: 500;
+    transform: rotate(-.35deg);
+  }
+  .signature { margin-top: .9em !important; font-size: 1.6em; font-weight: 600; text-align: right; line-height: 1.4; transform: rotate(-3deg); }
+
+  .message .g { opacity: 0; }
+  .message .is-writing .g { animation: ink .42s ease-out forwards; }
+  @keyframes ink { from { opacity: 0; color: var(--ink-soft); } to { opacity: 1; color: var(--ink); } }
+
+  .doodle {
+    align-self: flex-end;
+    width: 46px; height: 46px;
+    margin: 4px -4% -10px 0;
+    fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 1; stroke-dashoffset: 1;
+  }
+  .message.is-done .doodle { animation: draw 1.1s ease-in-out forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  .refold {
+    position: absolute; left: 50%;
+    top: calc(100% + 22px);
+    translate: -50% 0;
+    min-height: 44px;
+    padding: 0 22px;
+    border: 1.5px solid #fdf3e873;
+    border-radius: 999px;
+    background: #fdf3e812;
+    color: var(--cream);
+    font: inherit;
+    font-size: max(15px, calc(var(--fs) * .84));
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s, background-color .2s;
+  }
+  .refold:hover { background: #fdf3e829; }
+  .refold:focus-visible { outline: 2px solid var(--cream); outline-offset: 2px; }
+  .refold.is-shown { opacity: 1; visibility: visible; }
+
+  .scroll-cue {
+    position: fixed; left: 50%; bottom: max(18px, env(safe-area-inset-bottom));
+    z-index: 5;
+    translate: -50% 0;
+    padding: 3px 16px;
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--cream);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.9;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px #1f000059;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .35s;
+  }
+  .scroll-cue.is-shown { opacity: 1; animation: bob 1.8s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; animation-delay: 0ms !important; transition-duration: .01ms !important; transition-delay: 0ms !important; }
+    .sticker, .hint, .cloud, .spark { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="heart" viewBox="0 0 100 100">
+      <path d="M50 90C21 68 5 50 7 31 9 13 33 7 50 28 67 7 91 13 93 31c2 19-14 37-43 59Z"/>
+    </symbol>
+    <linearGradient id="seal-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c81e36"/>
+      <stop offset="1" stop-color="#8c0a1e"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="sky" aria-hidden="true">
+  <div class="cloud a"></div>
+  <div class="cloud b"></div>
+  <div class="cloud c"></div>
+  <div class="cloud d"></div>
+  <svg class="spark" viewBox="0 0 24 24" style="left:12%;top:18%"><path d="M12 0c1 7 4 10 12 12-8 2-11 5-12 12-1-7-4-10-12-12 8-2 11-5 12-12Z"/></svg>
+  <svg class="spark" viewBox="0 0 24 24" style="left:84%;top:12%;animation-delay:1.2s"><path d="M12 0c1 7 4 10 12 12-8 2-11 5-12 12-1-7-4-10-12-12 8-2 11-5 12-12Z"/></svg>
+  <svg class="spark" viewBox="0 0 24 24" style="left:7%;top:66%;animation-delay:2.1s"><path d="M12 0c1 7 4 10 12 12-8 2-11 5-12 12-1-7-4-10-12-12 8-2 11-5 12-12Z"/></svg>
+  <svg class="spark" viewBox="0 0 24 24" style="left:91%;top:58%;animation-delay:.6s"><path d="M12 0c1 7 4 10 12 12-8 2-11 5-12 12-1-7-4-10-12-12 8-2 11-5 12-12Z"/></svg>
+  <svg class="spark" viewBox="0 0 24 24" style="left:70%;top:88%;animation-delay:2.8s"><path d="M12 0c1 7 4 10 12 12-8 2-11 5-12 12-1-7-4-10-12-12 8-2 11-5 12-12Z"/></svg>
+</div>
+
+<main class="stage">
+  <div class="note" id="note">
+    <div class="under one paper-surface" aria-hidden="true"></div>
+    <div class="under two paper-surface" aria-hidden="true"></div>
+
+    <div class="paper" id="paper">
+      <div class="base paper-surface"></div>
+
+      <div class="flap" aria-hidden="true">
+        <div class="face inner paper-surface"></div>
+        <div class="face outer paper-surface">
+          <svg class="corner-doodle tl" viewBox="0 0 100 100"><path d="M50 88C22 67 8 50 10 32 12 16 34 11 50 31 66 11 88 16 90 32c2 18-12 35-40 56Z"/></svg>
+          <svg class="corner-doodle tr" viewBox="0 0 100 100"><path d="M50 88C22 67 8 50 10 32 12 16 34 11 50 31 66 11 88 16 90 32c2 18-12 35-40 56Z"/></svg>
+          <!-- ✏️ ข้อความหน้าปก -->
+          <div class="to">ເຖິງແມວສົ້ມ</div>
+          <svg class="squiggle" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M3 7c14-6 22 5 36 1s20-6 34-1 26 3 44-2"/></svg>
+        </div>
+      </div>
+
+      <!-- ✏️ ข้อความในโน้ต: แก้ได้ตรงนี้ -->
+      <article class="message" id="message" tabindex="-1">
+        <p class="greeting" data-write>ສຸກສັນເຊົ້າວັນຈັນອັນສົດໃສນະ ແມວສົ້ມຂອງອ້າຍ 🧡</p>
+        <p class="body" data-write>ຂໍໃຫ້ມື້ນີ້ແມວສົ້ມມີຄວາມສຸກ ໄດ້ຍິ້ມຫຼາຍໆ ແລະ ມີເລື່ອງດີໆ ເຂົ້າມາໃຫ້ຊື່ນໃຈນະ.</p>
+        <p class="body" data-write>ອ້າຍຮູ້ວ່າການໄປທ່ຽວຄັ້ງນີ້ ມີຫຼາຍຢ່າງທີ່ບໍ່ເປັນໄປຕາມແຜນ ຈົນເຮັດໃຫ້ເມື່ອຍ ແລະ ຄຽດໃນບາງຊ່ວງ. ແຕ່ຢ່າຟ້າວໂທດຕົນເອງຫຼາຍນະ ເຮົາບໍ່ສາມາດຄວບຄຸມທຸກຢ່າງໄດ້ໝົດ. ອັນໃດທີ່ຜ່ານມາແລ້ວ ກໍຄ່ອຍໆ ເກັບໄວ້ເປັນບົດຮຽນ ເພື່ອໃຫ້ຄັ້ງໜ້າເຮົາກຽມຂໍ້ມູນ ແລະ ວາງແຜນໄດ້ດີຂຶ້ນ. ການທີ່ບາງຢ່າງຜິດແຜນ ບໍ່ໄດ້ໝາຍຄວາມວ່າແມວສົ້ມເຮັດບໍ່ໄດ້ດີເດີ້.</p>
+        <p class="body" data-write>ອາທິດໃໝ່ແລ້ວ ອ້າຍຂໍໃຫ້ເປັນອາທິດທີ່ໃຈເບົາຂຶ້ນ ແລະ ມີແຮງກ້າວຕໍ່. ຕື່ນມາຢູ່ຫຼວງພະບາງມື້ນີ້ ລອງຫາຍໃຈເລິກໆ ຮັບອາກາດຍາມເຊົ້າ ກິນເຂົ້າໃຫ້ອີ່ມ ແລ້ວຄ່ອຍໆ ພາຕົນເອງໄປພົບຄວາມສຸກນ້ອຍໆ ລະຫວ່າງທາງນະ. ຢ່າໃຫ້ເລື່ອງທີ່ບໍ່ເປັນດັ່ງໃຈ ມາບັງຊ່ວງເວລາດີໆ ທັງໝົດຂອງການເດີນທາງຄັ້ງນີ້.</p>
+        <p class="body" data-write>ສ່ວນເລື່ອງເງິນ ຕອນນີ້ເກີນງົບທີ່ຕັ້ງໄວ້ແລ້ວ ຊ່ວງທີ່ເຫຼືອກໍຄ່ອຍໆ ວາງແຜນໃຊ້ໃຫ້ພໍດີນະ. ເລືອກໃຊ້ກັບສິ່ງທີ່ຈຳເປັນກ່ອນ ແຕ່ກໍຢ່າປະຫຍັດຈົນລືມດູແລຕົນເອງເດີ້. ອ້າຍເຕືອນເພາະເປັນຫ່ວງ ແລະ ຢາກໃຫ້ແມວສົ້ມທ່ຽວໄດ້ຢ່າງສະບາຍໃຈ.</p>
+        <p class="body" data-write>ເມື່ອຍກໍພັກ ບໍ່ສະບາຍໃຈກໍເລົ່າໃຫ້ອ້າຍຟັງໄດ້ ບໍ່ຕ້ອງເກັບທຸກຢ່າງໄວ້ຄົນດຽວ. ອ້າຍຢູ່ທາງນີ້ ຍັງເປັນກຳລັງໃຈໃຫ້ສະເໝີ. ຂໍໃຫ້ມື້ນີ້ໄດ້ພົບມຸມງາມໆ ໄດ້ເກັບຄວາມຊົງຈຳດີໆ ແລະ ກັບມາພ້ອມຮອຍຍິ້ມນະ ແມວສົ້ມ 🧡</p>
+        <p class="signature" data-write>My orange cat aiy~</p>
+        <svg class="doodle" viewBox="0 0 60 60" aria-hidden="true">
+          <path pathLength="1" d="M30 56C33 47 45 38 51 27 57 16 50 6 41 8 33 10 30 19 29 29 28 21 25 11 16 10 7 9 3 20 9 30 14 38 24 44 30 50"/>
+        </svg>
+      </article>
+
+      <button class="seal" id="seal" type="button" aria-label="ແຕະເພື່ອເປີດຈົດໝາຍ">
+        <svg class="sticker" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M50 90C21 68 5 50 7 31 9 13 33 7 50 28 67 7 91 13 93 31c2 19-14 37-43 59Z" fill="#fff" stroke="#fff" stroke-width="11" stroke-linejoin="round"/>
+          <path d="M50 90C21 68 5 50 7 31 9 13 33 7 50 28 67 7 91 13 93 31c2 19-14 37-43 59Z" fill="url(#seal-fill)"/>
+          <path d="M22 37c0-8 6-14 14-14" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <p class="hint" id="hint" aria-hidden="true">ແຕະເພື່ອເປີດ</p>
+    <button class="refold" id="refold" type="button">ພັບຄືນ</button>
+  </div>
+</main>
+
+<div class="scroll-cue" id="cue" aria-hidden="true">ເລື່ອນລົງ ↓</div>
+
+<script>
+(function () {
+  var note = document.getElementById('note');
+  var paper = document.getElementById('paper');
+  var message = document.getElementById('message');
+  var seal = document.getElementById('seal');
+  var refold = document.getElementById('refold');
+  var blocks = Array.prototype.slice.call(message.querySelectorAll('[data-write]'));
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var cue = document.getElementById('cue');
+
+  var UNFOLD_MS = 1050;
+  var STEP_MS = 13;      // per character while the ink appears
+  var HEART_COLORS = ['#fdf3e8', '#f3c4bd', '#d9485a', '#c81e36', '#a5122b'];
+
+  var originals = blocks.map(function (el) { return el.textContent; });
+  var timers = [];
+  var writing = false;
+  var cursor = 0;        // next paragraph to write
+  var blockTimer = null; // non-null while a paragraph is being written
+
+  function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+
+  /* ---------- hearts ---------- */
+  function heartEl(size, color, cls) {
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns, 'svg');
+    var use = document.createElementNS(ns, 'use');
+    use.setAttribute('href', '#heart');
+    svg.appendChild(use);
+    svg.setAttribute('class', cls);
+    svg.setAttribute('aria-hidden', 'true');
+    svg.style.width = svg.style.height = size + 'px';
+    svg.style.fill = color;
+    return svg;
+  }
+  function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  function floatHeart() {
+    if (document.hidden) return;
+    var h = heartEl(rand(12, 30), pick(HEART_COLORS), 'float-heart');
+    h.style.left = rand(0, 100) + 'vw';
+    h.style.animationDuration = rand(11, 20) + 's';
+    h.style.setProperty('--sway', rand(-46, 46) + 'px');
+    h.style.setProperty('--o', rand(.45, .9));
+    h.addEventListener('animationend', function () { h.remove(); });
+    document.body.appendChild(h);
+  }
+
+  function burst(x, y, count, spread) {
+    if (calm) return;
+    for (var i = 0; i < count; i++) {
+      var h = heartEl(rand(10, 26), pick(HEART_COLORS), 'pop-heart');
+      var angle = rand(0, Math.PI * 2);
+      var dist = rand(spread * .45, spread);
+      h.style.setProperty('--x0', x + 'px');
+      h.style.setProperty('--y0', y + 'px');
+      h.style.setProperty('--x1', (x + Math.cos(angle) * dist) + 'px');
+      h.style.setProperty('--y1', (y + Math.sin(angle) * dist - spread * .3) + 'px');
+      h.style.setProperty('--rot', rand(-40, 40) + 'deg');
+      h.style.setProperty('--t', rand(.7, 1.25) + 's');
+      h.addEventListener('animationend', function () { this.remove(); });
+      document.body.appendChild(h);
+    }
+  }
+
+  /* ---------- writing effect ---------- */
+  function graphemes(text) {
+    if (window.Intl && Intl.Segmenter) {
+      return Array.from(new Intl.Segmenter('lo', { granularity: 'grapheme' }).segment(text), function (s) { return s.segment; });
+    }
+    return null;
+  }
+
+  function updateCue() {
+    var more = document.documentElement.scrollHeight > window.innerHeight + 80;
+    var show = message.classList.contains('is-shown') && more && window.scrollY < 60;
+    cue.classList.toggle('is-shown', show);
+  }
+
+  function fitPaper() {
+    if (!note.classList.contains('is-open')) {
+      paper.style.height = '';
+      note.style.removeProperty('--tilt');
+      return;
+    }
+    var height = message.offsetHeight;
+    paper.style.height = height + 'px';
+    note.style.setProperty('--tilt', Math.min(1, 620 / height));
+    setTimeout(updateCue, 850);   // after the sheet finishes growing
+  }
+
+  function restoreBlock(i) {
+    blocks[i].classList.remove('is-writing');
+    blocks[i].textContent = originals[i];
+  }
+
+  function finishWriting() {
+    if (!writing) return;
+    writing = false;
+    clearTimeout(blockTimer);
+    blockTimer = null;
+    clearTimers();
+    blocks.forEach(function (el, i) { restoreBlock(i); });
+    message.classList.add('is-done');
+    refold.classList.add('is-shown');
+    fitPaper();
+  }
+
+  /* Write one paragraph at a time, only once the reader can see it. */
+  function pump() {
+    if (!writing) return;
+
+    // anything the reader has already scrolled past appears at once
+    while (cursor < blocks.length && blocks[cursor].getBoundingClientRect().bottom < 0) {
+      clearTimeout(blockTimer);
+      blockTimer = null;
+      restoreBlock(cursor);
+      cursor++;
+    }
+    if (cursor >= blocks.length) { finishWriting(); return; }
+    if (blockTimer !== null) return;
+    if (blocks[cursor].getBoundingClientRect().top > window.innerHeight * .94) return;
+
+    var el = blocks[cursor];
+    var count = el.querySelectorAll('.g').length;
+    el.classList.add('is-writing');
+    blockTimer = setTimeout(function () {
+      blockTimer = null;
+      restoreBlock(cursor);
+      cursor++;
+      pump();
+    }, count * STEP_MS + 450);
+  }
+
+  function startWriting() {
+    message.classList.add('is-shown');
+    writing = true;
+    cursor = 0;
+
+    var parts = blocks.map(function (el, i) { return graphemes(originals[i]); });
+    if (calm || parts[0] === null) { finishWriting(); return; }
+
+    blocks.forEach(function (el, i) {
+      var frag = document.createDocumentFragment();
+      parts[i].forEach(function (g, n) {
+        var s = document.createElement('span');
+        s.className = 'g';
+        s.textContent = g;
+        s.style.animationDelay = (n * STEP_MS) + 'ms';
+        frag.appendChild(s);
+      });
+      el.textContent = '';
+      el.appendChild(frag);
+    });
+    fitPaper();
+    pump();
+  }
+
+  /* ---------- open / close ---------- */
+  function open() {
+    if (note.classList.contains('is-open')) return;
+    var r = seal.querySelector('.sticker').getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height / 2, 26, 190);
+    note.classList.add('is-open');
+    fitPaper();   // the sheet grows while it unfolds, so text never sits off the paper
+    later(function () {
+      startWriting();
+      message.focus({ preventScroll: true });
+    }, calm ? 0 : UNFOLD_MS);
+  }
+
+  function close() {
+    clearTimers();
+    clearTimeout(blockTimer);
+    blockTimer = null;
+    writing = false;
+    message.classList.remove('is-shown', 'is-done');
+    blocks.forEach(function (el, i) { restoreBlock(i); });
+    refold.classList.remove('is-shown');
+    cue.classList.remove('is-shown');
+    note.classList.remove('is-open');
+    paper.style.height = '';
+    note.style.removeProperty('--tilt');
+    window.scrollTo({ top: 0, behavior: calm ? 'auto' : 'smooth' });
+    seal.focus({ preventScroll: true });
+  }
+
+  seal.addEventListener('click', open);
+  refold.addEventListener('click', close);
+  message.addEventListener('click', finishWriting);   // tap to skip the writing
+  window.addEventListener('resize', fitPaper);
+  var scrollQueued = false;
+  window.addEventListener('scroll', function () {
+    if (scrollQueued) return;
+    scrollQueued = true;
+    requestAnimationFrame(function () {
+      scrollQueued = false;
+      updateCue();
+      pump();
+    });
+  }, { passive: true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPaper);
+
+  /* tap the sky for a little puff of hearts */
+  document.addEventListener('pointerdown', function (e) {
+    if (e.target.closest && e.target.closest('.note')) return;
+    burst(e.clientX, e.clientY, 7, 80);
+  });
+
+  if (!calm) {
+    for (var i = 0; i < 4; i++) setTimeout(floatHeart, i * 500);
+    setInterval(floatHeart, 1500);
+  }
+})();
+</script>
+</body>
+</html>
